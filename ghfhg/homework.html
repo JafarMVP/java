@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8">
+  <title>Siyahı</title>
+</head>
+<body>
+  <h1>Siyahı</h1>
+
+  <!-- input və düymə -->
+  <input id="todo-input" type="text" placeholder="Mətn yaz...">
+  <button id="add-btn">Add</button>
+
+  <!-- siyahı -->
+  <ul id="list"></ul>
+
+  <script>
+    // HTML-dən elementləri götürürük
+    const input = document.getElementById('todo-input');
+    const addBtn = document.getElementById('add-btn');
+    const list = document.getElementById('list');
+
+    // Add düyməsinə klik olunanda
+    addBtn.addEventListener('click', function() {
+      const text = input.value.trim(); // istifadəçinin yazdığı mətn
+      if (text === '') return; // boşdursa əlavə etmə
+
+      // yeni li yaradılır
+      const li = document.createElement('li');
+      li.textContent = text;
+
+      // silmək üçün düymə
+      const delBtn = document.createElement('button');
+      delBtn.textContent = 'Delete';
+
+      // delete-ə klik olanda elementi siyahıdan sil
+      delBtn.addEventListener('click', function() {
+        list.removeChild(li);
+      });
+
+      // li-yə delete düyməsini əlavə edirik
+      li.appendChild(delBtn);
+
+      // siyahıya əlavə edirik
+      list.appendChild(li);
+
+      // inputu təmizlə
+      input.value = '';
+    });
+  </script>
+</body>
+</html>
