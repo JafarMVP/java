@@ -1,190 +1,96 @@
+<!DOCTYPE html>
 <html lang="az">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Facebook — daxil ol və qeydiyyatdan keç</title>
-  <meta name="description" content="Tədris məqsədi ilə hazırlanmış Facebook giriş səhifəsinin UI klonu." />
+  <meta charset="UTF-8">
+  <title>Facebook Giriş</title>
   <style>
-    :root{
-      --fb-blue:#1877f2;
-      --fb-green:#42b72a;
-      --text:#1c1e21;
-      --muted:#606770;
-      --bg:#f0f2f5;
-      --card:#fff;
-      --border:#dddfe2;
-      --radius:12px;
-      --shadow:0 2px 8px rgba(0,0,0,.08);
+    body {
+      background: #f0f2f5;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font:16px -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      color:var(--text);
-      background:var(--bg);
+    .container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding-top: 50px;
     }
-    a{color:var(--fb-blue);text-decoration:none}
-    a:hover{text-decoration:underline}
-
-    .page{
-      min-height:100vh;
-      display:grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 32px;
-      align-items:center;
-      justify-content:center;
-      padding: 40px 16px;
-      max-width: 1120px;
-      margin: 0 auto;
+    .logo {
+      color: #1877f2;
+      font-size: 50px;
+      font-weight: bold;
+      margin-bottom: 20px;
     }
-
-    .brand{max-width:520px}
-    .wordmark{
-      font-size:56px;
-      font-weight:700;
-      color:var(--fb-blue);
-      letter-spacing:-0.5px;
-      line-height:1;
+    .box {
+      width: 350px;
+      background: white;
+      border: 1px solid #ddd;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
     }
-    .tagline{
-      font-size:28px;
-      margin-top:12px;
-      color:#1c1e21;
+    .input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
     }
-
-    .card{
-      width:100%;
-      max-width:396px;
-      background:var(--card);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      border:1px solid rgba(0,0,0,.05);
-      padding: 16px 16px 20px;
+    .btn {
+      width: 100%;
+      padding: 12px;
+      background: #1877f2;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
     }
-    form{display:grid;gap:12px}
-    .input{
-      width:100%;
-      padding: 14px 16px;
-      border:1px solid var(--border);
-      border-radius:8px;
-      font-size:17px;
-      outline:none;
-      background:#fff;
+    .btn:hover {
+      background: #145dbf;
     }
-    .input:focus{
-      border-color: var(--fb-blue);
-      box-shadow: 0 0 0 3px rgba(24,119,242,.15);
+    .link {
+      display: block;
+      text-align: center;
+      margin: 10px 0;
+      font-size: 14px;
+      color: #1877f2;
+      text-decoration: none;
     }
-    .btn{
-      display:inline-block;
-      border:0;
-      border-radius:8px;
-      font-weight:700;
-      cursor:pointer;
-      text-align:center;
-      transition: transform .02s ease;
+    .new-btn {
+      background: #42b72a;
+      margin-top: 15px;
     }
-    .btn:active{ transform: scale(.99); }
-    .btn-primary{
-      background:var(--fb-blue);
-      color:#fff;
-      padding: 12px 16px;
-      font-size:20px;
-    }
-    .btn-secondary{
-      background:var(--fb-green);
-      color:#fff;
-      padding: 14px 16px;
-      font-size:17px;
-      width:fit-content;
-      margin: 12px auto 0;
-    }
-    .divider{height:1px;background:var(--border);margin:12px 0}
-
-    .forgot{text-align:center;font-size:14px}
-    .meta{
-      text-align:center;
-      margin-top: 24px;
-      font-size:14px;
-      color:var(--muted);
-    }
-    .meta a{color:inherit;font-weight:600}
-
-    /* Footer (optional) */
-    .footer{
-      max-width: 980px;
-      margin: 48px auto 0;
-      font-size:12px;
-      color:#737373;
-      line-height: 1.8;
-    }
-    .footer ul{display:flex;flex-wrap:wrap;gap:10px;padding:0;margin:0;list-style:none}
-
-    /* Responsive */
-    @media (max-width: 900px){
-      .page{grid-template-columns:1fr;gap:24px;align-items:flex-start}
-      .brand{max-width:unset;text-align:center}
-      .wordmark{font-size:48px}
-      .tagline{font-size:24px}
-      .card{margin: 0 auto}
+    .footer {
+      margin-top: 40px;
+      font-size: 12px;
+      color: gray;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <main class="page" role="main">
-    <section class="brand" aria-label="Facebook brendi">
-      <h1 class="wordmark" aria-label="facebook">facebook</h1>
-      <p class="tagline">Facebook insanlara paylaşmaq və dünyanı daha açıq və əlaqəli etmək imkanı verir.</p>
-    </section>
-
-    <section aria-label="Giriş formu">
-      <div class="card" role="region" aria-labelledby="login-title">
-        <form action="#" method="post" novalidate>
-          <h2 id="login-title" style="position:absolute;left:-9999px;">Hesaba giriş</h2>
-
-          <label>
-            <span class="sr-only">E‑poçt və ya telefon</span>
-            <input class="input" type="text" name="identifier" placeholder="E‑poçt və ya telefon" autocomplete="username" required />
-          </label>
-
-          <label>
-            <span class="sr-only">Şifrə</span>
-            <input class="input" type="password" name="password" placeholder="Şifrə" autocomplete="current-password" required />
-          </label>
-
-          <button class="btn btn-primary" type="submit">Daxil ol</button>
-
-          <div class="forgot">
-            <a href="#">Şifrəni unutdun?</a>
-          </div>
-
-          <div class="divider" role="separator" aria-hidden="true"></div>
-
-          <button class="btn btn-secondary" type="button">Yeni hesab yarat</button>
-        </form>
-      </div>
-
-      <p class="meta">
-        <a href="#">Səhifə</a> yarat və ya məşhurluq qazan — brend və ya biznes üçün.
-      </p>
-    </section>
-  </main>
-
-  <footer class="footer" aria-label="Alt menyu (demo)">
-    <ul>
-      <li>Azərbaycanca</li>
-      <li><a href="#">English (US)</a></li>
-      <li><a href="#">Русский</a></li>
-      <li><a href="#">Türkçe</a></li>
-      <li><a href="#">Deutsch</a></li>
-      <li><a href="#">Français (France)</a></li>
-    </ul>
-  </footer>
-
-  <style>
-    /* Visually hidden utility for accessible labels */
-    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-  </style>
+  <div class="container">
+    <div class="logo">facebook</div>
+    <div class="box">
+      <form>
+        <input type="text" placeholder="E‑poçt və ya telefon" class="input">
+        <input type="password" placeholder="Şifrə" class="input">
+        <button type="submit" class="btn">Daxil ol</button>
+        <a href="#" class="link">Şifrəni unutdun?</a>
+        <hr>
+        <button type="button" class="btn new-btn">Yeni hesab yarat</button>
+      </form>
+    </div>
+    <div class="footer">
+      Azərbaycan dili · English (US) · Русский · Türkçe
+    </div>
+  </div>
 </body>
 </html>
