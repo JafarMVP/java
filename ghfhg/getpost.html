@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8">
+  <title>FakeStore API Nümunə</title>
+</head>
+<body>
+
+  <h2>GET: Məhsullar</h2>
+  <!-- Düyməyə klik edəndə GET sorğusu göndəriləcək -->
+  <button id="getBtn">Məhsulları yüklə</button>
+
+  <!-- Məhsullar burada göstəriləcək -->
+  <ul id="products"></ul>
+
+  <hr />
+
+  <h2>POST: Yeni məhsul əlavə et</h2>
+  <!-- Sadə forma: POST sorğusu üçün -->
+  <form id="productForm">
+    <div>
+      <label>Başlıq:</label>
+      <input type="text" id="title" placeholder="Başlıq" />
+    </div>
+    <div>
+      <label>Qiymət:</label>
+      <input type="number" id="price" placeholder="Qiymət" />
+    </div>
+    <div>
+      <label>Təsvir:</label>
+      <input type="text" id="description" placeholder="Təsvir" />
+    </div>
+    <div>
+      <label>Şəkil URL:</label>
+      <input type="text" id="image" placeholder="Şəkil URL" />
+    </div>
+    <div>
+      <label>Kateqoriya:</label>
+      <input type="text" id="category" placeholder="Kateqoriya" />
+    </div>
+    <button type="submit">Göndər</button>
+  </form>
+
+  <!-- POST sorğusundan gələn cavab burada göstəriləcək -->
+  <pre id="postResult"></pre>
+
+  <script>
+    // HTML elementlərini dəyişənlərə götürürük
+    var productsList = document.getElementById('products');
+    var postResult = document.getElementById('postResult');
+    var getBtn = document.getElementById('getBtn');
+    var productForm = document.getElementById('productForm');
+
+    // GET düyməsinin klik olunmasına reaksiya veririk
+    getBtn.addEventListener('click', function () {
+      console.log('GET düyməsinə klik olundu');
+      productsList.innerHTML = 'Yüklənir...';
+
+      // API-dən məhsulları alırıq
+      fetch('https://fakestoreapi.com/products/')
+        .then(function (res) {
+          console.log('GET cavabı:', res);
+          return res.json();
+        })
+        .then(function (data) {
+          console.log('Gələn data:', data);
+          productsList.innerHTML = '';
+          for (var i = 0; i < data.length; i++) {
+            var p = data[i];
+            productsList.innerHTML += '<li>' + p.id + '. ' + p.title + ' - ' + p.price + ' $</li>';
+          }
+        })
+        .catch(function (err) {
+          console.error('GET xəta:', err);
+          productsList.innerHTML = 'Məhsulları yükləmək mümkün olmadı';
+        });
+    });
+
+    // POST formasının göndərilməsi
+    productForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // İstifadəçinin daxil etdiyi məlumatları götürürük
+      var titleInput = document.getElementById('title').value;
+      var priceInput = document.getElementById('price').value;
+      var descInput = document.getElementById('description').value;
+      var imageInput = document.getElementById('image').value;
+      var categoryInput = document.getElementById('category').value;
+
+      // Göndəriləcək obyekt
+      var newProduct = {
+        title: titleInput,
+        price: Number(priceInput),
+        description: descInput,
+        image: imageInput,
+        category: categoryInput
+      };
+
+      console.log('POST ilə göndərilən obyekt:', newProduct);
+
+      fetch('https://fakestoreapi.com/products', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newProduct)
+      })
+        .then(function (res) {
+          console.log('POST cavabı:', res);
+          return res.json();
+        })
+        .then(function (result) {
+          console.log('POST nəticə:', result);
+          postResult.textContent = JSON.stringify(result, null, 2);
+        })
+        .catch(function (err) {
+          console.error('POST xəta:', err);
+          postResult.textContent = 'Xəta: ' + err;
+        });
+    });
+  </script>
+</body>
+</html>
